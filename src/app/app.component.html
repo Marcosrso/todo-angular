@@ -22,9 +22,15 @@
   </div>
   <div class="row">
     <div class="col">
-      <ul class="list-group">
-        <li *ngFor="let task of tasks" class="list-group-item bg-white">{{task.title}}</li>
-      </ul>
+      <div *ngIf="tasks?.length then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
+        <ul class="list-group">
+          <li *ngFor="let task of tasks" class="list-group-item bg-white">{{task.title}}</li>
+        </ul>
+      </ng-template>
+      <ng-template #elseBlock>
+        <h6>Não há itens para exibir</h6>
+      </ng-template>
     </div>
   </div>
 </div>
