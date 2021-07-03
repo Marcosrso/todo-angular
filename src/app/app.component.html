@@ -1,18 +1,24 @@
 <div class="container">
-  <div class="row">
-    <h5>Categorias</h5>
+  <div class="row my-2">
+    <div class="col"><h5>Categorias</h5></div>
   </div>
   <div class="row">
     <div *ngFor="let category of categories" class="col-6 col-sm-6 col-md-4">
       <div class="card">
         <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">{{category.tasksAmout}} Tarefas</h6>
           <h5 class="card-title">{{category.title}}</h5>
         </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <h5>Todas as Tarefas</h5>
+  <div class="row my-2">
+    <div class="col">
+      <h5>Todas as Tarefas</h5>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <button type="button" class="btn btn-primary" (click)="addTask()">Adicionar tarefa</button>
+    </div>
   </div>
   <div class="row">
     <div class="col">

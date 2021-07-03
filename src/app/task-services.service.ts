@@ -20,13 +20,18 @@ export class TaskService {
   constructor(private http: HttpClient) { }
   baseUrl = 'http://localhost:3000';
 
-  getData ():Observable<any> {
+  getTasks ():Observable<ITask[]> {
     const url = `${this.baseUrl}/tasks`
-    return this.http.get<ITask>(url);
+    return this.http.get<ITask[]>(url);
   }
 
-  getCategories():Observable<any> {
+  insertTask(task: ITask):Observable<ITask> {
+    const url = `${this.baseUrl}/tasks`
+    return this.http.post<ITask>(url,task);
+  }
+
+  getCategories():Observable<ICategory[]> {
     const url = `${this.baseUrl}/lists`
-    return this.http.get<ICategory>(url);
+    return this.http.get<ICategory[]>(url);
   }
 }
