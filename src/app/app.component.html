@@ -1,6 +1,8 @@
 <div class="container">
   <div class="row my-2 align-items-center">
-    <div class="col"><h5>Categorias</h5></div>
+    <div class="col">
+      <h6 class="text-secondary">Categorias</h6>
+    </div>
   </div>
   <div class="row">
     <div *ngFor="let category of categories" class="col-6 col-sm-6 col-md-4">
@@ -17,7 +19,7 @@
   </div>
   <div class="row my-2 align-items-center">
     <div class="col">
-      <h5>Todas as Tarefas</h5>
+      <h6 class="text-secondary">Todas as Tarefas</h6>
     </div>
     <div class="col d-flex justify-content-end">
       <button type="button" class="btn btn-primary" (click)="addTask()">Adicionar tarefa</button>
@@ -28,11 +30,13 @@
       <div *ngIf="tasks?.length then thenBlock else elseBlock"></div>
       <ng-template #thenBlock>
         <ul class="list-group">
-          <li *ngFor="let task of tasks" class="list-group-item bg-white">{{task.title}}</li>
+          <li *ngFor="let task of tasks" class="list-group-item bg-white mb-2">{{task.title}}</li>
         </ul>
       </ng-template>
       <ng-template #elseBlock>
-        <h6>Não há itens para exibir</h6>
+        <div class="d-flex justify-content-center">
+          <h6>Não há itens para exibir</h6>
+        </div>
       </ng-template>
     </div>
   </div>
