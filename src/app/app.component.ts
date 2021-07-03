@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TaskService, ITask } from './task-services.service';
+import { TaskService, ITask, ICategory } from './task-services.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,7 @@ export class AppComponent {
 
   title = 'todo';
   tasks: ITask[] | undefined;
+  categories: ICategory[] | undefined
 
   constructor(private TaskService:TaskService ) { }
 
@@ -17,6 +18,10 @@ export class AppComponent {
   ngOnInit() {
     this.TaskService.getData().subscribe((data: ITask[]) => {
       this.tasks = [...data]
+    });
+
+    this.TaskService.getCategories().subscribe((data: ICategory[]) => {
+      this.categories = [...data]
     });
   }
 }

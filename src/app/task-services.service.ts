@@ -8,17 +8,25 @@ export interface ITask {
   title: string
 }
 
+export interface ICategory {
+  id: number,
+  title: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-
-  baseUrl = 'http://localhost:3000';
-
   constructor(private http: HttpClient) { }
+  baseUrl = 'http://localhost:3000';
 
   getData ():Observable<any> {
     const url = `${this.baseUrl}/tasks`
     return this.http.get<ITask>(url);
+  }
+
+  getCategories():Observable<any> {
+    const url = `${this.baseUrl}/lists`
+    return this.http.get<ICategory>(url);
   }
 }

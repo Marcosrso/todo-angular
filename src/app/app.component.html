@@ -1,8 +1,26 @@
-<h5>To Do List</h5>
-<div>
-  <ul>
-    <li *ngFor="let task of tasks">{{task.title}}</li>
-  </ul>
+<div class="container">
+  <div class="row">
+    <h5>Categorias</h5>
+  </div>
+  <div class="row">
+    <div *ngFor="let category of categories" class="col-6 col-sm-6 col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{category.title}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <h5>Todas as Tarefas</h5>
+  </div>
+  <div class="row">
+    <div class="col">
+      <ul class="list-group">
+        <li *ngFor="let task of tasks" class="list-group-item bg-white">{{task.title}}</li>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
