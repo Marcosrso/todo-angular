@@ -17,7 +17,6 @@ export class AppComponent {
   ngOnInit() {
     this.TaskService.getData().subscribe((data: ITask[]) => {
       this.tasks = [...data]
-      console.log(this.tasks)
     });
   }
 }
