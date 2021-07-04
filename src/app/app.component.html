@@ -55,7 +55,7 @@
           <div class="d-flex flex-row flex-nowrap overflow-auto w-100" #categoriesWrapper>
             <div *ngFor="let list of lists" class="col-6 col-sm-6 col-md-4">
               <div class="card">
-                <button type="button" class="btn text-left">
+                <button type="button" class="btn text-left" (click)="filterTaskCategory(list.id)">
                   <div class="card-body">
                     <h5 class="card-title">{{list.title}}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{list.tasksAmout}} Tarefas</h6>
@@ -82,7 +82,7 @@
   </div>
   <div class="row my-2 align-items-center">
     <div class="col">
-      <h6 class="text-secondary">Todas as Tarefas</h6>
+      <h6 class="text-secondary">{{displayedList?.title || 'Todas as tarefas'}}</h6>
     </div>
   </div>
   <div class="row">
@@ -120,10 +120,10 @@
   </div>
   <div class="row">
     <div class="col">
-      <div *ngIf="tasks?.length then thenBlock else elseBlock"></div>
+      <div *ngIf="tasksSortedByList?.length then thenBlock else elseBlock"></div>
       <ng-template #thenBlock>
         <ul class="list-group">
-          <li *ngFor="let task of tasks" class="list-group-item bg-white mb-2">{{task.title}}</li>
+          <li *ngFor="let task of tasksSortedByList" class="list-group-item bg-white mb-2">{{task.title}}</li>
         </ul>
       </ng-template>
       <ng-template #elseBlock>

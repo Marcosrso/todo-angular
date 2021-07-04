@@ -30,9 +30,10 @@ export class AppComponent {
   })
   newTaskForm = new FormGroup({
     title: new FormControl('',[Validators.required, Validators.minLength(4)]),
-    listId: new FormControl('',Validators.required)
+    listId: new FormControl('')
   })
 
+  displayedList: IList | undefined;
   tasks: ITask[] | undefined;
   lists: ILists[] = [{
     id: '',
@@ -41,11 +42,16 @@ export class AppComponent {
     tasksAmout: 0,
   }];
 
+  tasksSortedByList: ITask[] | undefined;
+
   constructor(private TaskService:TaskService ) { }
 
   getTasks () {
     this.TaskService.getTasks().subscribe((data: ITask[]) => {
       this.tasks = [...data]
+      if(this.tasks?.length){
+        this.tasksSortedByList = [...this.tasks];
+      }
     });
   }
 
@@ -68,6 +74,7 @@ export class AppComponent {
       }))
       this.lists[0].tasksAmout = this.tasks?.length || 0;
       this.lists = this.lists?.concat(lists);
+      this.displayedList = this.lists[0];
     });
   }
 
@@ -80,6 +87,19 @@ export class AppComponent {
     const list = this.newTaskForm.value;
     this.TaskService.insertTask(list.title,list.listId).subscribe((task: ITask) => {
       this?.tasks?.push(task);
+      if(!this.displayedList?.id.length){
+        this.tasksSortedByList = this.tasks;
+      }
+      if(task.listId === this.displayedList?.id){
+        this.tasksSortedByList?.push(task);
+      }
+      const listIndexToUpdate = this.lists?.findIndex(list => list.id === task.listId);
+      if(listIndexToUpdate >= 0 && this.tasks){
+        this.lists[0].tasksAmout = this.tasks?.length;
+        if(task.listId.length){
+          this.lists[listIndexToUpdate].tasksAmout = this.tasks.filter(list => list.listId === task.listId)?.length | 0;
+        }
+      }
       this.clearTaskForm();
     })
   }
@@ -94,6 +114,17 @@ export class AppComponent {
       });
       this.clearListForm();
     })
+  }
+
+  filterTaskCategory(listId: string){
+    if(listId.length){
+      this.displayedList = this.lists.find(list => list.id === listId) || this.lists[0];
+    }else{
+      this.displayedList = this.lists[0];
+    }
+    if(this.tasks?.length){
+      this.tasksSortedByList = listId.length ? this.tasks?.filter(task => task.listId === listId) : this.tasks;
+    }
   }
 
   scrollCategoriesToTheLeft() {
