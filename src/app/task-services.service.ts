@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface ITask {
-  id: number,
-  listId: number,
+  id: string,
+  listId: IList['id'],
   title: string
 }
 
-export interface ICategory {
-  id: number,
+export interface IList {
+  id: string,
   title: string
 }
 
@@ -30,8 +30,8 @@ export class TaskService {
     return this.http.post<ITask>(url,task);
   }
 
-  getCategories():Observable<ICategory[]> {
+  getCategories():Observable<IList[]> {
     const url = `${this.baseUrl}/lists`
-    return this.http.get<ICategory[]>(url);
+    return this.http.get<IList[]>(url);
   }
 }

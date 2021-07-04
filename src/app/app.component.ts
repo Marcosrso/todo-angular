@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { TaskService, ITask, ICategory } from './task-services.service';
+import { TaskService, ITask, IList } from './task-services.service';
 
-interface ICategories extends ICategory {
+interface ILists extends IList {
   tasksAmout: number;
 }
 
@@ -14,12 +14,12 @@ export class AppComponent {
 
   title = 'todo';
   task: ITask | undefined = {
-    id: 4,
-    listId: 1,
-    title: 'Tetste',
+    id: '',
+    listId: '',
+    title: '',
   };
   tasks: ITask[] | undefined;
-  categories: ICategories[] | undefined;
+  lists: ILists[] | undefined;
 
   constructor(private TaskService:TaskService ) { }
 
@@ -34,19 +34,19 @@ export class AppComponent {
   }
 
   getCategories (){
-    this.TaskService.getCategories().subscribe((data: ICategory[]) => {
-      const categoryList:ICategory[] = [...data];
-      const categories:ICategories[] = categoryList.map(category => ({
+    this.TaskService.getCategories().subscribe((data: IList[]) => {
+      const allList:IList[] = [...data];
+      const lists:ILists[] = allList.map(category => ({
         id: category.id,
         title: category.title,
         tasksAmout: this.tasks?.length ? this.tasks.filter(task => task.listId === category.id).length : 0,
       }))
-      categories.unshift({
-        id: 0,
+      lists.unshift({
+        id: '',
         title: 'Todas as tarefas',
         tasksAmout: this.tasks?.length ? this.tasks.length : 0,
       })
-      this.categories = categories;
+      this.lists = lists;
     });
   }
 
