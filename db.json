@@ -1,4 +1,10 @@
 {
-  "lists": [],
+  "lists": [
+    {
+      "id": "7a961ed8-fde6-4545-832b-2e14cbce1b07",
+      "title": "Mercado",
+      "color": "#f0ad4e"
+    }
+  ],
   "tasks": []
 }

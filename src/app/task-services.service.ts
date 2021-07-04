@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface ITask {
   id: string,
@@ -10,7 +11,8 @@ export interface ITask {
 
 export interface IList {
   id: string,
-  title: string
+  title: string,
+  color?: string
 }
 
 @Injectable({
@@ -25,13 +27,28 @@ export class TaskService {
     return this.http.get<ITask[]>(url);
   }
 
-  insertTask(task: ITask):Observable<ITask> {
-    const url = `${this.baseUrl}/tasks`
+  insertTask(title: string, listId: string):Observable<ITask> {
+    const url = `${this.baseUrl}/tasks`;
+    const task: ITask = {
+      id: uuidv4(),
+      title,
+      listId
+    }
     return this.http.post<ITask>(url,task);
   }
 
-  getCategories():Observable<IList[]> {
+  getList():Observable<IList[]> {
     const url = `${this.baseUrl}/lists`
     return this.http.get<IList[]>(url);
+  }
+
+  insertList(title: string, color?: string):Observable<IList> {
+    const url = `${this.baseUrl}/lists`;
+    const task: IList = {
+      id: uuidv4(),
+      title,
+      color
+    }
+    return this.http.post<IList>(url,task);
   }
 }

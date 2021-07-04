@@ -3,15 +3,52 @@
     <div class="col">
       <h6 class="text-secondary">Categorias</h6>
     </div>
+    <div class="col">
+      <form name="form" [formGroup]="newListForm" (ngSubmit)="newListForm.valid && onSubmitCategoryForm()">
+        <div class="form-group">
+          <label for="title"><h6>Título</h6></label>
+          <input type="text" class="form-control" formControlName="title" [ngClass]="{'is-invalid': newListForm.get('title')?.touched && newListForm.get('title')?.invalid}">
+          <div class="invalid-feedback" *ngIf="newListForm.get('title')?.touched && newListForm.get('title')?.invalid">
+            <div *ngIf="newListForm.get('title')?.errors?.required">
+              Informar um título para a categoria
+            </div>
+            <div *ngIf="newListForm.get('title')?.errors?.minlength">
+              Informar um título com pelo menos 3 caracteres
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col">
+            <div class="form-group">
+              <h6>Etiqueta</h6>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary" *ngFor="let color of listColors" [ngStyle]="{'background-color': newListForm.get('color')?.value === color.value ? color.valueWhenSelected : color.value, 'border': 'none'}">
+                  <input type="radio" autocomplete="off" [value]="color.value" formControlName="color"  [checked]="{'active':newListForm.get('color')?.value === color.value}">&nbsp;
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <h6>Etiqueta selecionada</h6>
+            <label class="btn btn-secondary" [ngStyle]="{'background-color': newListForm.get('color')?.value, 'border': 'none'}">
+              &nbsp;
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="!newListForm.valid">Adicionar categoria</button>
+        </div>
+      </form>
+    </div>
   </div>
   <div class="row">
     <div *ngFor="let list of lists" class="col-6 col-sm-6 col-md-4">
       <div class="card">
         <div class="card-body">
-          <h6 class="card-subtitle mb-2 text-muted">{{list.tasksAmout}} Tarefas</h6>
           <h5 class="card-title">{{list.title}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{list.tasksAmout}} Tarefas</h6>
           <div class="progress" style="height: 4px;">
-            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'background-color': list.color}"></div>
           </div>
         </div>
       </div>
@@ -34,8 +71,8 @@
         </ul>
       </ng-template>
       <ng-template #elseBlock>
-        <div class="d-flex justify-content-center">
-          <h6>Não há itens para exibir</h6>
+        <div class="d-flex justify-content-center align-items-baseline">
+          <i class="bi bi-exclamation-circle m-2"></i><h6>Não há itens para exibir</h6>
         </div>
       </ng-template>
     </div>
