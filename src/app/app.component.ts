@@ -16,7 +16,6 @@ export class AppComponent {
   @ViewChild('categoriesWrapper') categoriesWrapper: ElementRef |  undefined;
 
   title = 'Todo App';
-
   listColors: {name:string, value: string, valueWhenSelected: string}[] = [
     {name:'Red', value: '#d2322d',valueWhenSelected: '#ac2929'},
     {name:'Yellow', value: '#f0ad4e', valueWhenSelected: '#eea236'},
@@ -24,15 +23,16 @@ export class AppComponent {
     {name:'Green', value: '#5cb85c', valueWhenSelected: '#4cae4c'},
     {name:'Blue', value: '#3276b1', valueWhenSelected: '#357ebd'}
   ]
-  newTask: ITask = {
-    id: '',
-    listId: '',
-    title: '',
-  };
+
   newListForm = new FormGroup({
     title: new FormControl('',[Validators.required, Validators.minLength(4)]),
     color: new FormControl('#3276b1',Validators.required)
   })
+  newTaskForm = new FormGroup({
+    title: new FormControl('',[Validators.required, Validators.minLength(4)]),
+    listId: new FormControl('',Validators.required)
+  })
+
   tasks: ITask[] | undefined;
   lists: ILists[] = [{
     id: '',
@@ -51,6 +51,10 @@ export class AppComponent {
 
   clearListForm(){
     this.newListForm.reset();
+  }
+
+  clearTaskForm(){
+    this.newTaskForm.reset();
   }
 
   getList (){
@@ -72,15 +76,15 @@ export class AppComponent {
     this.getList()
   }
 
-  addTask() {
-    if(this.newTask){
-      this.TaskService.insertTask(this.newTask.title,this.newTask.listId).subscribe((task: ITask) => {
-        this?.tasks?.push(task);
-      })
-    }
+  onSubmitTaskForm(){
+    const list = this.newTaskForm.value;
+    this.TaskService.insertTask(list.title,list.listId).subscribe((task: ITask) => {
+      this?.tasks?.push(task);
+      this.clearTaskForm();
+    })
   }
 
-  onSubmitCategoryForm(){
+  onSubmitListForm(){
     const list = this.newListForm.value;
     this.TaskService.insertList(list.title, list.color).subscribe((list: IList) => {
       this?.lists?.push({
@@ -100,6 +104,7 @@ export class AppComponent {
       });
     }
   }
+
   scrollCategoriesToTheRight() {
     if(this.categoriesWrapper){
       this.categoriesWrapper.nativeElement?.scrollBy({
