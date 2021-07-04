@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TaskService, ITask, IList } from './task-services.service';
 
@@ -12,6 +12,9 @@ interface ILists extends IList {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  @ViewChild('categoriesWrapper') categoriesWrapper: ElementRef |  undefined;
+
   title = 'Todo App';
 
   listColors: {name:string, value: string, valueWhenSelected: string}[] = [
@@ -31,7 +34,12 @@ export class AppComponent {
     color: new FormControl('#3276b1',Validators.required)
   })
   tasks: ITask[] | undefined;
-  lists: ILists[] | undefined;
+  lists: ILists[] = [{
+    id: '',
+    title: 'Todas as tarefas',
+    color: this.listColors.find((color) => color.name === 'Blue')?.value || '#3276b1',
+    tasksAmout: 0,
+  }];
 
   constructor(private TaskService:TaskService ) { }
 
@@ -51,16 +59,11 @@ export class AppComponent {
       const lists:ILists[] = allList.map(list => ({
         id: list.id,
         title: list.title,
-        color: list?.color,
+        color: list?.color || '#3276b1',
         tasksAmout: this.tasks?.length ? this.tasks.filter(task => task.listId === list.id).length : 0,
       }))
-      lists.unshift({
-        id: '',
-        title: 'Todas as tarefas',
-        color: this.listColors.find((color) => color.name === 'Blue')?.value,
-        tasksAmout: this.tasks?.length ? this.tasks.length : 0,
-      })
-      this.lists = lists;
+      this.lists[0].tasksAmout = this.tasks?.length || 0;
+      this.lists = this.lists?.concat(lists);
     });
   }
 
@@ -87,5 +90,22 @@ export class AppComponent {
       });
       this.clearListForm();
     })
+  }
+
+  scrollCategoriesToTheLeft() {
+    if(this.categoriesWrapper){
+      this.categoriesWrapper.nativeElement?.scrollBy({
+        left: -200,
+        behavior: 'smooth',
+      });
+    }
+  }
+  scrollCategoriesToTheRight() {
+    if(this.categoriesWrapper){
+      this.categoriesWrapper.nativeElement?.scrollBy({
+        left: 200,
+        behavior: 'smooth',
+      });
+    }
   }
 }
