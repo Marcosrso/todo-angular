@@ -1,0 +1,29 @@
+<form name="form" [formGroup]="newTaskForm" (ngSubmit)="newTaskForm.valid && onSubmitTaskForm()">
+  <div class="form-row">
+    <div class="col">
+      <div class="form-group">
+        <label for="title"><h6>Título</h6></label>
+        <input type="text" class="form-control" formControlName="title" [ngClass]="{'is-invalid': newTaskForm.get('title')?.touched && newTaskForm.get('title')?.invalid}">
+        <div class="invalid-feedback" *ngIf="newTaskForm.get('title')?.touched && newTaskForm.get('title')?.invalid">
+          <div *ngIf="newTaskForm.get('title')?.errors?.required">
+            Informar um título para a tarefa
+          </div>
+          <div *ngIf="newTaskForm.get('title')?.errors?.minlength">
+            Informar um título com pelo menos 3 caracteres
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <label for="taskSelect"><h6>Categoria</h6></label>
+        <select class="form-control" id="taskSelect" formControlName="listId">
+          <option  *ngFor="let list of lists" [selected]="newTaskForm.get('listId')?.value === list.id" [value]="list.id">{{list.title}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary" [disabled]="!newTaskForm.valid">Adicionar tarefa</button>
+  </div>
+</form>

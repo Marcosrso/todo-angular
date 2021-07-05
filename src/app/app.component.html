@@ -1,156 +1,16 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <form name="form" [formGroup]="newListForm" (ngSubmit)="newListForm.valid && onSubmitListForm()">
-        <div class="form-group">
-          <label for="title"><h6>Título</h6></label>
-          <input type="text" class="form-control" formControlName="title" [ngClass]="{'is-invalid': newListForm.get('title')?.touched && newListForm.get('title')?.invalid}">
-          <div class="invalid-feedback" *ngIf="newListForm.get('title')?.touched && newListForm.get('title')?.invalid">
-            <div *ngIf="newListForm.get('title')?.errors?.required">
-              Informar um título para a categoria
-            </div>
-            <div *ngIf="newListForm.get('title')?.errors?.minlength">
-              Informar um título com pelo menos 3 caracteres
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="col">
-            <div class="form-group">
-              <h6>Etiqueta</h6>
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary" *ngFor="let color of listColors" [ngStyle]="{'background-color': newListForm.get('color')?.value === color.value ? color.valueWhenSelected : color.value, 'border': 'none'}">
-                  <input type="radio" autocomplete="off" [value]="color.value" formControlName="color"  [checked]="{'active':newListForm.get('color')?.value === color.value}">&nbsp;
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <h6>Etiqueta selecionada</h6>
-            <label class="btn btn-secondary" [ngStyle]="{'background-color': newListForm.get('color')?.value, 'border': 'none'}">
-              &nbsp;
-            </label>
-          </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary" [disabled]="!newListForm.valid">Adicionar categoria</button>
-        </div>
-      </form>
+      <app-list-register></app-list-register>
     </div>
   </div>
-  <div class="row my-2 align-items-center">
-    <div class="col">
-      <h6 class="text-secondary">Categorias</h6>
-    </div>
-  </div>
-  <div class="row justify-content-around align-items-center">
-    <div *ngIf="lists?.length then thenListBlock else elseNotFoundBlock"></div>
-      <ng-template #thenListBlock>
-        <div class="col-2 d-flex justify-content-center">
-          <button type="button" class="btn btn-light" (click)="scrollCategoriesToTheLeft()">
-            <i class="bi bi-arrow-left-circle" style="font-size: 2.5rem;"></i>
-          </button>
-        </div>
-        <div class="col-8">
-          <div class="d-flex flex-row flex-nowrap overflow-auto w-100" #categoriesWrapper>
-            <div *ngFor="let list of lists" class="col-6 col-sm-6 col-md-4">
-              <div class="card">
-                <button type="button" class="btn text-left" (click)="filterTaskCategory(list.id)">
-                  <div class="card-body">
-                    <h5 class="card-title">{{list.title}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{list.tasksAmout}} Tarefas</h6>
-                    <div class="progress" style="height: 4px;">
-                      <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'background-color': list.color}"></div>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-2 d-flex justify-content-center">
-          <button type="button" class="btn btn-light" (click)="scrollCategoriesToTheRight()">
-            <i class="bi bi-arrow-right-circle" style="font-size: 2.5rem;"></i>
-          </button>
-        </div>
-      </ng-template>
-      <ng-template #elseNotFoundBlock>
-        <div class="d-flex justify-content-center align-items-baseline">
-          <i class="bi bi-exclamation-circle m-2"></i><h6>Não há itens para exibir</h6>
-        </div>
-      </ng-template>
-  </div>
-  <div class="row my-2 align-items-center">
-    <div class="col">
-      <h6 class="text-secondary">{{displayedList?.title || 'Todas as tarefas'}}</h6>
-    </div>
-  </div>
+  <app-list-index [lists]="lists" (listOnClick)="filterTaskCategory($event)"></app-list-index>
   <div class="row">
     <div class="col">
-      <form name="form" [formGroup]="newTaskForm" (ngSubmit)="newTaskForm.valid && onSubmitTaskForm()">
-        <div class="form-row">
-          <div class="col">
-            <div class="form-group">
-              <label for="title"><h6>Título</h6></label>
-              <input type="text" class="form-control" formControlName="title" [ngClass]="{'is-invalid': newTaskForm.get('title')?.touched && newTaskForm.get('title')?.invalid}">
-              <div class="invalid-feedback" *ngIf="newTaskForm.get('title')?.touched && newTaskForm.get('title')?.invalid">
-                <div *ngIf="newTaskForm.get('title')?.errors?.required">
-                  Informar um título para a tarefa
-                </div>
-                <div *ngIf="newTaskForm.get('title')?.errors?.minlength">
-                  Informar um título com pelo menos 3 caracteres
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <label for="taskSelect"><h6>Categoria</h6></label>
-              <select class="form-control" id="taskSelect" formControlName="listId">
-                <option  *ngFor="let list of lists" [selected]="newTaskForm.get('listId')?.value === list.id" [value]="list.id">{{list.title}}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary" [disabled]="!newTaskForm.valid">Adicionar tarefa</button>
-        </div>
-      </form>
+      <app-task-register [tasks]="tasks" [lists]="lists"></app-task-register>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <div *ngIf="tasksSortedByList?.length then thenBlock else elseBlock"></div>
-      <ng-template #thenBlock>
-        <ul class="list-group">
-          <li *ngFor="let task of tasksSortedByList" class="list-group-item list-group-item-action bg-white mb-4" data-toggle="list">
-            <div class="col d-flex justify-content-between align-items-center">
-              <div class="form-check" style="width: 30px; height: 30px">
-                <input class="form-check-input" type="checkbox" id="taskCheck" [checked]="task.status === 'Completed'"  (change)="toggleTaskStatus(task.id,$event)">
-                <label class="form-check-label" for="taskCheck">
-                  <div *ngIf="task.status === 'Completed' then thenBlock else elseBlock"></div>
-                  <ng-template #thenBlock>
-                    <del class="text-muted">{{task.title}}</del>
-                  </ng-template>
-                  <ng-template #elseBlock>
-                    <strong>{{task.title}}</strong>
-                  </ng-template>
-                </label>
-              </div>
-              <button type="button" class="btn btn-light" (click)="removeTask(task.id)">
-                <i class="bi bi-trash" style="font-size: 1.39rem; color: red"></i>
-              </button>
-            </div>
-          </li>
-        </ul>
-      </ng-template>
-      <ng-template #elseBlock>
-        <div class="d-flex justify-content-center align-items-baseline">
-          <i class="bi bi-exclamation-circle m-2"></i><h6>Não há itens para exibir</h6>
-        </div>
-      </ng-template>
-    </div>
-  </div>
+  <app-task-index [list]="displayedList" [tasks]="tasksSortedByList" (deleteTaskOnClick)="removeTask($event)" (toggleTaskOnClick)="toggleTaskStatus($event)"></app-task-index>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->

@@ -1,0 +1,38 @@
+<div class="row my-2 align-items-center">
+  <div class="col">
+    <h6 class="text-secondary">{{list?.title || 'Todas as tarefas'}}</h6>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <div *ngIf="tasks?.length then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+      <ul class="list-group">
+        <li *ngFor="let task of tasks" class="list-group-item list-group-item-action bg-white mb-4" data-toggle="list">
+          <div class="col d-flex justify-content-between align-items-center">
+            <div class="form-check" style="width: 30px; height: 30px">
+              <input class="form-check-input" type="checkbox" id="taskCheck" [checked]="task.status === 'Completed'"  (change)="handleToggleTaskStatus(task.id,$event)">
+              <label class="form-check-label" for="taskCheck">
+                <div *ngIf="task.status === 'Completed' then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock>
+                  <del class="text-muted">{{task.title}}</del>
+                </ng-template>
+                <ng-template #elseBlock>
+                  <strong>{{task.title}}</strong>
+                </ng-template>
+              </label>
+            </div>
+            <button type="button" class="btn btn-light" (click)="handleDeleteTask(task.id)">
+              <i class="bi bi-trash" style="font-size: 1.39rem; color: red"></i>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </ng-template>
+    <ng-template #elseBlock>
+      <div class="d-flex justify-content-center align-items-baseline">
+        <i class="bi bi-exclamation-circle m-2"></i><h6>Não há itens para exibir</h6>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -7,10 +7,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientModule} from '@angular/common/http';
 import { TaskService } from './task-services.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TaskRegisterComponent } from './task-register/task-register.component';
+import { ListRegisterComponent } from './list-register/list-register.component';
+import { ListIndexComponent } from './list-index/list-index.component';
+import { TaskIndexComponent } from './task-index/task-index.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TaskRegisterComponent,
+    ListRegisterComponent,
+    ListIndexComponent,
+    TaskIndexComponent
   ],
   imports: [
     BrowserModule,
