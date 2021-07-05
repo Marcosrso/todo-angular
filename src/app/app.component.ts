@@ -56,11 +56,17 @@ export class AppComponent {
   }
 
   clearListForm(){
-    this.newListForm.reset();
+    this.newListForm.reset({
+      title: '',
+      color: '#3276b1'
+    });
   }
 
   clearTaskForm(){
-    this.newTaskForm.reset();
+    this.newTaskForm.reset({
+      title: '',
+      listId: ''
+    });
   }
 
   getList (){
