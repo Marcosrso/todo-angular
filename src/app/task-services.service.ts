@@ -3,10 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
+export type TaskStatus =  'Completed'| 'Waiting' | 'Deleted';
+
 export interface ITask {
   id: string,
   listId: IList['id'],
-  title: string
+  title: string,
+  status: TaskStatus,
 }
 
 export interface IList {
@@ -32,9 +35,17 @@ export class TaskService {
     const task: ITask = {
       id: uuidv4(),
       title,
-      listId
+      listId,
+      status: 'Waiting'
     }
     return this.http.post<ITask>(url,task);
+  }
+
+  updateTaskStatus(taskId:string, status: TaskStatus){
+    const url = `${this.baseUrl}/tasks/${taskId}`;
+    return this.http.patch<ITask>(url,{
+      status
+    });
   }
 
   getList():Observable<IList[]> {

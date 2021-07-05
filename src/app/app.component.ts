@@ -47,8 +47,8 @@ export class AppComponent {
   constructor(private TaskService:TaskService ) { }
 
   getTasks () {
-    this.TaskService.getTasks().subscribe((data: ITask[]) => {
-      this.tasks = [...data]
+    this.TaskService.getTasks().subscribe((tasks: ITask[]) => {
+      this.tasks = [...tasks].filter(task => task.status === 'Waiting' || task.status === 'Completed')
       if(this.tasks?.length){
         this.tasksSortedByList = [...this.tasks];
       }
@@ -113,6 +113,25 @@ export class AppComponent {
         tasksAmout: this.tasks?.length ? this.tasks.filter(task => task.listId === list.id).length : 0
       });
       this.clearListForm();
+    })
+  }
+
+  removeTask(taskId: string){
+    this.TaskService.updateTaskStatus(taskId, "Deleted").subscribe((task: ITask) => {
+      const taskId = this.tasksSortedByList?.findIndex(taskToUpdate => taskToUpdate.id === task.id);
+      if(this.tasksSortedByList && typeof taskId === 'number' && taskId >= 0){
+        this.tasksSortedByList.splice(taskId,1);
+      }
+    })
+  }
+
+  toggleTaskStatus(taskId: string, e: Event){
+    const target = e.target as HTMLInputElement;
+    this.TaskService.updateTaskStatus(taskId,target.checked ? "Completed" : "Waiting").subscribe((task: ITask) => {
+      const taskId = this.tasksSortedByList?.findIndex(taskToUpdate => taskToUpdate.id === task.id);
+      if(this.tasksSortedByList && typeof taskId === 'number' && taskId >= 0){
+        this.tasksSortedByList[taskId].status = task.status;
+      }
     })
   }
 
