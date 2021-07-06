@@ -1,6 +1,9 @@
-<div class="row my-2 align-items-center">
+<div class="row my-3 align-items-center pt-3" style="border-top: solid 1px lightgrey;">
   <div class="col">
-    <h6 class="text-secondary">{{list?.title || 'Todas as tarefas'}}</h6>
+    <h5 class="text-secondary"><i class="bi bi-list-task"></i><small> Tarefas </small>{{selectedList?.title}}</h5>
+  </div>
+  <div  class="col d-flex justify-content-end">
+    <a class="btn btn-primary" routerLink="tarefas/nova" routerLinkActive="active"><i class="bi bi-list-task"></i> Adicionar tarefa</a>
   </div>
 </div>
 <div class="row">
@@ -8,9 +11,9 @@
     <div *ngIf="tasks?.length then thenBlock else elseBlock"></div>
     <ng-template #thenBlock>
       <ul class="list-group">
-        <li *ngFor="let task of tasks" class="list-group-item list-group-item-action bg-white mb-4" data-toggle="list">
+        <li *ngFor="let task of tasks" class="list-group-item list-group-item-action bg-white mb-4" data-toggle="list" [ngStyle]="{'border-left': 'solid 6px ' + task.listColor}">
           <div class="col d-flex justify-content-between align-items-center">
-            <div class="form-check" style="width: 30px; height: 30px">
+            <div class="form-check">
               <input class="form-check-input" type="checkbox" id="taskCheck" [checked]="task.status === 'Completed'"  (change)="handleToggleTaskStatus(task.id,$event)">
               <label class="form-check-label" for="taskCheck">
                 <div *ngIf="task.status === 'Completed' then thenBlock else elseBlock"></div>

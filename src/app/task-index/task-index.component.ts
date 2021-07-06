@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ITask, IList } from '../task-services.service';
+import { ITasks } from '../home/home.component';
+import { IList } from '../task-services.service';
 
 export interface IToggleTaskEvent {
   taskId: string,
@@ -13,8 +14,9 @@ export interface IToggleTaskEvent {
 })
 export class TaskIndexComponent {
 
-  @Input() list?: IList;
-  @Input() tasks?: ITask[];
+  @Input() selectedList?: IList;
+  @Input() tasks?: ITasks[];
+
   @Output() deleteTaskOnClick: EventEmitter<string> = new EventEmitter<string>();
   @Output() toggleTaskOnClick: EventEmitter<IToggleTaskEvent> = new EventEmitter<IToggleTaskEvent>();
 

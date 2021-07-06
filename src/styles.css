@@ -2,6 +2,7 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 body {
   background-color: #f9faff;
+  font-family: 'Roboto', sans-serif;
 }
 
 ::-webkit-scrollbar-track {

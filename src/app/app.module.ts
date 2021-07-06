@@ -11,6 +11,7 @@ import { TaskRegisterComponent } from './task-register/task-register.component';
 import { ListRegisterComponent } from './list-register/list-register.component';
 import { ListIndexComponent } from './list-index/list-index.component';
 import { TaskIndexComponent } from './task-index/task-index.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TaskIndexComponent } from './task-index/task-index.component';
     TaskRegisterComponent,
     ListRegisterComponent,
     ListIndexComponent,
-    TaskIndexComponent
+    TaskIndexComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

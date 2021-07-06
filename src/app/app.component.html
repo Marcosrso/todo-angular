@@ -1,16 +1,10 @@
 <div class="container">
-  <div class="row">
-    <div class="col">
-      <app-list-register></app-list-register>
-    </div>
+  <div class="row justify-content-center my-4">
+    <h4 class="d-flex align-items-center">
+      <i class="bi bi-app mr-2" style="font-size: 2.5rem;"></i> {{title}}
+    </h4>
   </div>
-  <app-list-index [lists]="lists" (listOnClick)="filterTaskCategory($event)"></app-list-index>
-  <div class="row">
-    <div class="col">
-      <app-task-register [tasks]="tasks" [lists]="lists"></app-task-register>
-    </div>
-  </div>
-  <app-task-index [list]="displayedList" [tasks]="tasksSortedByList" (deleteTaskOnClick)="removeTask($event)" (toggleTaskOnClick)="toggleTaskStatus($event)"></app-task-index>
+  <router-outlet></router-outlet>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -21,4 +15,3 @@
 <!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<router-outlet></router-outlet>

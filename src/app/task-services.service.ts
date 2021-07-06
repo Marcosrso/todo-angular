@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 
 export type TaskStatus =  'Completed'| 'Waiting' | 'Deleted';
@@ -21,13 +22,21 @@ export interface IList {
 @Injectable({
   providedIn: 'root'
 })
+
 export class TaskService {
   constructor(private http: HttpClient) { }
   baseUrl = 'http://localhost:3000';
 
   getTasks ():Observable<ITask[]> {
     const url = `${this.baseUrl}/tasks`
-    return this.http.get<ITask[]>(url);
+    return this.http.get<ITask[]>(url).pipe(map(tasks => tasks.filter(task =>  task.status === 'Completed' || task.status === 'Waiting')));
+  }
+
+  getTasksByList(listId: string):Observable<ITask[]> {
+    const url = `${this.baseUrl}/tasks`
+    return this.http.get<ITask[]>(url).pipe(
+      map(tasks => tasks.filter(task => task.listId === listId))
+    );
   }
 
   insertTask(title: string, listId: string):Observable<ITask> {
@@ -48,7 +57,7 @@ export class TaskService {
     });
   }
 
-  getList():Observable<IList[]> {
+  getLists():Observable<IList[]> {
     const url = `${this.baseUrl}/lists`
     return this.http.get<IList[]>(url);
   }

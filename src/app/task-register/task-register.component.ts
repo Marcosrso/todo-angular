@@ -1,33 +1,28 @@
-import { Component, Input} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IList, ITask, TaskService } from '../task-services.service';
-
-interface ILists extends IList {
-  tasksAmout: number;
-}
+import { IList, TaskService } from '../task-services.service';
 
 @Component({
   selector: 'app-task-register',
   templateUrl: './task-register.component.html',
   styleUrls: ['./task-register.component.css']
 })
-export class TaskRegisterComponent {
+export class TaskRegisterComponent implements OnInit{
 
-  @Input() lists: ILists[] = [{
-    id: '',
-    title: 'Todas as tarefas',
-    color: '#3276b1',
-    tasksAmout: 0,
-  }];
-
-  @Input() tasks: ITask[] | undefined;
+  lists?: IList[];
 
   newTaskForm = new FormGroup({
     title: new FormControl('',[Validators.required, Validators.minLength(4)]),
-    listId: new FormControl('')
+    listId: new FormControl('', Validators.required)
   })
 
   constructor(private TaskService:TaskService ) { }
+
+  ngOnInit() {
+    this.TaskService.getLists().subscribe(lists => {
+      this.lists = lists;
+    })
+  }
 
   clearTaskForm(){
     this.newTaskForm.reset({
@@ -38,8 +33,7 @@ export class TaskRegisterComponent {
 
   onSubmitTaskForm(){
     const list = this.newTaskForm.value;
-    this.TaskService.insertTask(list.title,list.listId).subscribe((task: ITask) => {
-      this?.tasks?.push(task);
+    this.TaskService.insertTask(list.title,list.listId).subscribe(() => {
       this.clearTaskForm();
     })
   }

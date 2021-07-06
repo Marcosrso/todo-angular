@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IList, TaskService } from '../task-services.service';
 
@@ -13,6 +13,7 @@ export class ListRegisterComponent {
     title: new FormControl('',[Validators.required, Validators.minLength(4)]),
     color: new FormControl('#3276b1',Validators.required)
   })
+
   listColors: {name:string, value: string, valueWhenSelected: string}[] = [
     {name:'Red', value: '#d2322d',valueWhenSelected: '#ac2929'},
     {name:'Yellow', value: '#f0ad4e', valueWhenSelected: '#eea236'},
@@ -20,7 +21,6 @@ export class ListRegisterComponent {
     {name:'Green', value: '#5cb85c', valueWhenSelected: '#4cae4c'},
     {name:'Blue', value: '#3276b1', valueWhenSelected: '#357ebd'}
   ]
-  @Output() deleteTaskOnClick: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private TaskService: TaskService) { }
 
