@@ -1,0 +1,51 @@
+<div class="row my-5">
+  <div>
+    <a class="btn btn-link d-flex align-items-center" routerLink="" routerLinkActive="active"><i class="bi bi-arrow-left-circle m-2" style="font-size: 2.5rem;"></i>Voltar</a>
+  </div>
+  <div class="col-12">
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <div class="row mb-4">
+          <h4>
+            <i class="bi bi-filter"></i> Adicionar Categoria
+          </h4>
+        </div>
+        <form name="form" [formGroup]="newListForm" (ngSubmit)="newListForm.valid && onSubmitListForm()">
+          <div class="form-group">
+            <label for="title"><h6>Título</h6></label>
+            <input type="text" class="form-control" formControlName="title" [ngClass]="{'is-invalid': newListForm.get('title')?.touched && newListForm.get('title')?.invalid}">
+            <div class="invalid-feedback" *ngIf="newListForm.get('title')?.touched && newListForm.get('title')?.invalid">
+              <div *ngIf="newListForm.get('title')?.errors?.required">
+                Informar um título para a categoria
+              </div>
+              <div *ngIf="newListForm.get('title')?.errors?.minlength">
+                Informar um título com pelo menos 3 caracteres
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group">
+                <h6>Etiqueta</h6>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-secondary" *ngFor="let color of listColors" [ngStyle]="{'background-color': newListForm.get('color')?.value === color.value ? color.valueWhenSelected : color.value, 'border': 'none'}">
+                    <input type="radio" autocomplete="off" [value]="color.value" formControlName="color"  [checked]="{'active':newListForm.get('color')?.value === color.value}">&nbsp;
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <h6>Etiqueta selecionada</h6>
+              <label class="btn btn-secondary" [ngStyle]="{'background-color': newListForm.get('color')?.value, 'border': 'none'}">
+                &nbsp;
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" [disabled]="!newListForm.valid"><i class="bi bi-filter"></i> Adicionar categoria</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

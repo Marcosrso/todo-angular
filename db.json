@@ -1,0 +1,23 @@
+{
+  "lists": [
+    {
+      "id": "5f9026fa-8b7e-4edd-92bd-7ae647a5012d",
+      "title": "Geral",
+      "color": "#5bc0de"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "dec44054-9b3c-49c0-bc46-167e7361ef2c",
+      "title": "Lavar carro",
+      "listId": "5f9026fa-8b7e-4edd-92bd-7ae647a5012d",
+      "status": "Completed"
+    },
+    {
+      "id": "60cda17b-b87b-4402-a589-050dbee33b0f",
+      "title": "Regar as plantas",
+      "listId": "5f9026fa-8b7e-4edd-92bd-7ae647a5012d",
+      "status": "Waiting"
+    }
+  ]
+}

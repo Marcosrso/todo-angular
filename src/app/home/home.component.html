@@ -1,0 +1,10 @@
+<app-list-index
+  [lists]="lists"
+  (listOnClick)="handleListOnClick($event)">
+</app-list-index>
+<app-task-index
+  [tasks]="tasks"
+  [selectedList]="selectedList"
+  (deleteTaskOnClick)="removeTask($event)"
+  (toggleTaskOnClick)="toggleTaskStatus($event)">
+</app-task-index>

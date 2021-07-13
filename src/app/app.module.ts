@@ -3,16 +3,33 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {HttpClientModule} from '@angular/common/http';
+import { TaskService } from './task-services.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { TaskRegisterComponent } from './task-register/task-register.component';
+import { ListRegisterComponent } from './list-register/list-register.component';
+import { ListIndexComponent } from './list-index/list-index.component';
+import { TaskIndexComponent } from './task-index/task-index.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TaskRegisterComponent,
+    ListRegisterComponent,
+    ListIndexComponent,
+    TaskIndexComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [TaskService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

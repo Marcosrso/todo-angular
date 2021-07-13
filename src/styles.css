@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+body {
+  background-color: #f9faff;
+  font-family: 'Roboto', sans-serif;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #F7F7F7;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar {
+  width: initial;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+  border: 3px solid #F7F7F7;
+  background: rgba(255, 255, 255, 0.8);
+}

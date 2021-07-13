@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { IList } from './task-services.service';
+
+export interface ILists extends IList {
+  tasksAmout: number;
+}
 
 @Component({
   selector: 'app-root',
@@ -6,5 +11,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'todo';
+
+  title = 'My Todo App';
+  constructor() { }
 }
